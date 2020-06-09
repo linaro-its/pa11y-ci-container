@@ -26,9 +26,9 @@ RUN npm i -g puppeteer pa11y-ci pa11y-ci-reporter-html
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
     && mkdir -p /home/pptruser \
     && chown -R pptruser:pptruser /home/pptruser
+COPY pa11yconfig.json /home/pptruser/.pa11yci
+RUN chmod a+r /home/pptruser/.pa11yci
 
 # Run everything after as non-privileged user.
 USER pptruser
 WORKDIR /home/pptruser
-COPY pa11yconfig.json /home/pptruser/.pa11yci
-RUN chmod a+r /home/pptruser/.pa11yci
