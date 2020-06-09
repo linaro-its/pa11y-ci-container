@@ -31,3 +31,4 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 USER pptruser
 WORKDIR /home/pptruser
 COPY pa11yconfig.json /home/pptruser/.pa11yci
+RUN chmod a+r /home/pptruser/.pa11yci
