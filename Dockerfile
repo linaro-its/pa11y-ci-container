@@ -18,20 +18,16 @@ RUN apt-get update \
 # RUN chmod +x /usr/local/bin/dumb-init
 # ENTRYPOINT ["dumb-init", "--"]
 
-# Uncomment to skip the chromium download when installing puppeteer. If you do,
-# you'll need to launch puppeteer with:
-#     browser.launch({executablePath: 'google-chrome-unstable'})
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+# Install puppeteer so it's available in the container.
+RUN npm i -g puppeteer pa11y-ci pa11y-ci-reporter-html
 
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads \
+    && mkdir -p /home/pptruser \
     && chown -R pptruser:pptruser /home/pptruser
 
 # Run everything after as non-privileged user.
 USER pptruser
 WORKDIR /home/pptruser
-
-# Install puppeteer so it's available in the container.
-RUN npm i puppeteer pa11y-ci pa11y-ci-reporter-html
-
 COPY pa11yconfig.json /home/pptruser/.pa11yci
