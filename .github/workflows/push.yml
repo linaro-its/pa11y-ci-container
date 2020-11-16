@@ -1,0 +1,23 @@
+name: PushAction
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [ self-hosted, containers-runner ]
+    steps:
+      - name: Cancel previous runs
+        uses: n1hility/cancel-previous-runs@v2
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch git repository
+        uses: actions/checkout@v2
+
+      - name: Build container image
+        run: |
+          cd $GITHUB_WORKSPACE
+          docker build --force-rm -t "linaroits/pa11y-ci" .
+  
