@@ -18,6 +18,6 @@ jobs:
       - name: Move report
         run: /srv/github-action-scripts/pa11y-move-report.sh ${{ github.event.inputs.uri }}
       - name: Update a11y config
-        run: cd /srv/github-action-scripts && pipenv run python pa11y-update-json.py "$1" "$GITHUB_WORKSPACE"
+        run: cd /srv/github-action-scripts && pipenv run python pa11y-update-json.py "${{ github.event.inputs.uri }}" "$GITHUB_WORKSPACE"
       - name: Delete JSON file
         run: rm $GITHUB_WORKSPACE/${{ github.event.inputs.uri }}.json
