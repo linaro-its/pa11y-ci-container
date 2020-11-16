@@ -2,6 +2,8 @@ name: PushAction
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - .github/workflows/check_site.yml
   workflow_dispatch:
 
 jobs:
