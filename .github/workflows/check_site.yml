@@ -1,0 +1,22 @@
+name: PushAction
+on:
+  workflow_dispatch:
+    inputs:
+      uri:
+        description: 'Website URI'
+        required: true
+
+jobs:
+  build:
+    runs-on: [ self-hosted, its-runner ]
+    steps:
+      - name: Scan website
+        run: /srv/github-action-scripts/pa11y-scan.sh ${{ github.event.inputs.uri }}
+      - name: Create report
+        run: /srv/github-action-scripts/pa11y-report.sh ${{ github.event.inputs.uri }}
+      - name: Move report
+        run: /srv/github-action-scripts/pa11y-move-report.sh ${{ github.event.inputs.uri }}
+      - name: Update a11y config
+        run: cd /srv/github-action-scripts && pipenv run python pa11y-update-json.py
+      - name: Delete JSON file
+        run: rm $GITHUB_WORKSPACE/${{ github.event.inputs.uri }}.json
