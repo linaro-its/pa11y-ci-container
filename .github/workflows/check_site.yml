@@ -1,4 +1,5 @@
-name: PushAction
+name: CheckSite
+
 on:
   workflow_dispatch:
     inputs:
